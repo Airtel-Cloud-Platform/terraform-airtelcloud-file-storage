@@ -20,17 +20,6 @@ variable "size" {
   }
 }
 
-variable "type" {
-  description = "File storage type"
-
-  type = string
-
-  validation {
-    condition     = length(trim(var.type, " ")) > 0
-    error_message = "type cannot be empty."
-  }
-}
-
 variable "availability_zone" {
   description = "Availability zone"
 
@@ -40,42 +29,6 @@ variable "availability_zone" {
     condition     = length(trim(var.availability_zone, " ")) > 0
     error_message = "availability_zone cannot be empty."
   }
-}
-
-variable "vpc_id" {
-  description = "VPC ID"
-
-  type = string
-
-  validation {
-    condition     = length(trim(var.vpc_id, " ")) > 0
-    error_message = "vpc_id cannot be empty."
-  }
-}
-
-variable "subnet_id" {
-  description = "Subnet ID"
-
-  type = string
-
-  validation {
-    condition     = length(trim(var.subnet_id, " ")) > 0
-    error_message = "subnet_id cannot be empty."
-  }
-}
-
-variable "is_encrypted" {
-  description = "Enable file storage encryption"
-
-  type    = bool
-  default = false
-}
-
-variable "enable_backup" {
-  description = "Enable file storage backup"
-
-  type    = bool
-  default = false
 }
 
 variable "create_export_path" {

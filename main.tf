@@ -3,16 +3,7 @@ resource "airtelcloud_file_storage" "this" {
 
   size = var.size
 
-  type = var.type
-
   availability_zone = var.availability_zone
-
-  vpc_id    = var.vpc_id
-  subnet_id = var.subnet_id
-
-  is_encrypted = var.is_encrypted
-
-  enable_backup = var.enable_backup
 }
 
 resource "airtelcloud_file_storage_export_path" "this" {
