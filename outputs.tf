@@ -13,16 +13,16 @@ output "file_storage_uuid" {
 output "file_storage_status" {
   description = "File storage status"
 
-  value = airtelcloud_file_storage.this.status
+  value = airtelcloud_file_storage.this.state
 }
 
 output "file_storage" {
   description = "Complete file storage object"
 
   value = {
-    id     = airtelcloud_file_storage.this.id
-    uuid   = airtelcloud_file_storage.this.uuid
-    status = airtelcloud_file_storage.this.status
+    id    = airtelcloud_file_storage.this.id
+    uuid  = airtelcloud_file_storage.this.uuid
+    state = airtelcloud_file_storage.this.state
   }
 }
 

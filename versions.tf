@@ -3,8 +3,8 @@ terraform {
 
   required_providers {
     airtelcloud = {
-      source  = "Airtel-Cloud-Platform/file-storage/airtelcloud"
-      version = ">= 1.0.0"
+      source  = "Airtel-Cloud-Platform/airtelcloud"
+      version = ">= 1.0.4"
     }
   }
 }
