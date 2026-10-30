@@ -9,6 +9,13 @@ variable "name" {
   }
 }
 
+variable "description" {
+  description = "File storage volume description"
+
+  type    = string
+  default = null
+}
+
 variable "size" {
   description = "File storage size in GB"
 
@@ -42,7 +49,14 @@ variable "export_path_description" {
   description = "Export path description"
 
   type    = string
-  default = ""
+  default = null
+}
+
+variable "export_path_availability_zone" {
+  description = "Availability zone for the export path. Defaults to the volume availability_zone."
+
+  type    = string
+  default = null
 }
 
 variable "protocol" {
@@ -62,10 +76,10 @@ variable "protocol" {
 }
 
 variable "nfs_export_path" {
-  description = "NFS export path"
+  description = "NFS export directory path name. When null, the path is assigned by the service."
 
   type    = string
-  default = "/"
+  default = null
 }
 
 variable "default_access_type" {
@@ -102,5 +116,34 @@ variable "default_user_squash" {
     )
 
     error_message = "default_user_squash must be NoSquash, RootIdSquash, RootSquash, or AllSquash."
+  }
+}
+
+variable "additional_export_paths" {
+  description = "Additional NFS export paths to create on the volume, keyed by a unique name."
+
+  type = map(object({
+    description         = optional(string)
+    protocol            = optional(string, "NFSv4")
+    availability_zone   = optional(string)
+    nfs_export_path     = optional(string)
+    default_access_type = optional(string, "ReadWrite")
+    default_user_squash = optional(string, "NoSquash")
+  }))
+  default = {}
+
+  validation {
+    condition     = alltrue([for p in values(var.additional_export_paths) : contains(["NFSv3", "NFSv4"], p.protocol)])
+    error_message = "additional_export_paths protocol must be NFSv3 or NFSv4."
+  }
+
+  validation {
+    condition     = alltrue([for p in values(var.additional_export_paths) : contains(["NoAccess", "ReadOnly", "ReadWrite"], p.default_access_type)])
+    error_message = "additional_export_paths default_access_type must be NoAccess, ReadOnly, or ReadWrite."
+  }
+
+  validation {
+    condition     = alltrue([for p in values(var.additional_export_paths) : contains(["NoSquash", "RootIdSquash", "RootSquash", "AllSquash"], p.default_user_squash)])
+    error_message = "additional_export_paths default_user_squash must be NoSquash, RootIdSquash, RootSquash, or AllSquash."
   }
 }
